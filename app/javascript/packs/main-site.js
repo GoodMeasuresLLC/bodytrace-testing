@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
+import AppStore from '../store/store'
 import Wrapper from '../components/Wrapper.vue'
 import Index from '../components/main-site/Index.vue'
 
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const el = document.getElementById("root")
 
   // Vuex
-  const store = new Vuex.Store({})
+  const store = new Vuex.Store(AppStore)
 
   const app = new Vue({
     el: el,
