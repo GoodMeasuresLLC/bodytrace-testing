@@ -1,5 +1,5 @@
-class Api::DevicesController < ApplicationController
+class Api::DevicesController < ApiController
   def index
-    render :json => @devices
+    render :json => Device.all
   end
 end
