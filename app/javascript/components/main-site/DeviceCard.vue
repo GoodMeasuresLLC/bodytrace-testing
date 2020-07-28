@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card :title="device.imei">
-      <b-row>
+      <b-row v-if="device.status == 'ready'">
         <b-col align-self="start">
           <span class="text-secondary">Enter readings for this device:</span>
         </b-col>
@@ -45,6 +45,16 @@
 
             <b-button type="submit" variant="primary">Record Measurement</b-button>
           </b-form>
+        </b-col>
+      </b-row>
+      <b-row v-else-if="device.status == 'shipping'">
+        <b-col align-self="start">
+          <span class="text-secondary">This device is currently shipping.</span>
+        </b-col>
+      </b-row>
+      <b-row v-else>
+        <b-col align-self="start">
+          <span class="text-secondary">This device is pending shipping.</span>
         </b-col>
       </b-row>
     </b-card>

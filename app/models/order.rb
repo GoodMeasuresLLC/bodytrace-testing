@@ -20,6 +20,11 @@ class Order < ApplicationRecord
 
   def update_shipment_status
     self.shipment.update_attributes(:status => self.status)
+    if self.fulfilled?
+      self.device.update_attributes(:status => "shipping")
+    elsif self.delivered?
+      self.device.update_attributes(:status => "ready")
+    end
   end
 
   def shipping_address_for_api
