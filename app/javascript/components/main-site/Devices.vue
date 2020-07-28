@@ -3,14 +3,19 @@
     <b-jumbotron header="Devices" lead="These are the devices currently registered for Good Measures">
       <p>Visit github.com/mikemaven for more info.</p>
     </b-jumbotron>
+    <span v-for="device in devices">
+      <device-card :device="device"/>
+    </span>
   </div>
 </template>
 
 <script>
+import DeviceCard from './DeviceCard.vue'
+
 export default {
   name: 'Devices',
 
-  components: {},
+  components: {DeviceCard},
 
   mixins: [],
 
@@ -26,26 +31,23 @@ export default {
 
   data() {
     return {
-      // field: 'value'
+      form: {
+        
+      }
     }
   },
 
   computed: {
-    // computed properties are cached based on their dependencies
-    /*
-    computedProperty() {
-      return 'value'
-    },
-    */
+    devices(){
+      return this.$store.getters.devices
+    }
   },
 
   methods: {
-    // Methods run whenever a re-render happens, their results aren't cached.
-    /*
-    onClick() {
-      this.$emit('click-happened')
-    },
-    */
+    onSubmitMeasurement(event, deviceId){
+      event.preventDefault();
+      alert(JSON.stringify(this.form))
+    }
   },
 
   mounted() {
