@@ -1,7 +1,7 @@
-class CreateDevices < ActiveRecord::Migration[5.2]
+class CreateShipments < ActiveRecord::Migration[5.2]
   def change
-    create_table :devices do |t|
-      t.string :imei
+    create_table :shipments do |t|
+      t.string :tracking_number
       t.integer :status, default: 0
       t.integer :order_id, :index => true
 

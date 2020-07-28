@@ -10,22 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_192707) do
+ActiveRecord::Schema.define(version: 2020_07_27_200202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "device_readings", force: :cascade do |t|
-    t.bigint "device_id", null: false
-    t.bigint "reading_id", null: false
-    t.index ["device_id"], name: "index_device_readings_on_device_id"
-    t.index ["reading_id"], name: "index_device_readings_on_reading_id"
-  end
-
   create_table "devices", force: :cascade do |t|
     t.string "imei"
+    t.integer "status", default: 0
+    t.integer "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_devices_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -39,10 +35,18 @@ ActiveRecord::Schema.define(version: 2020_07_27_192707) do
     t.string "company_name"
     t.string "phone_number"
     t.string "email"
-    t.string "shipping_address"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "postal_code"
+    t.string "country"
     t.string "uuid"
+    t.integer "device_id"
+    t.integer "shipment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_orders_on_device_id"
+    t.index ["shipment_id"], name: "index_orders_on_shipment_id"
   end
 
   create_table "readings", force: :cascade do |t|
@@ -52,6 +56,23 @@ ActiveRecord::Schema.define(version: 2020_07_27_192707) do
     t.integer "unit"
     t.integer "tare"
     t.integer "weight"
+  end
+
+  create_table "shipments", force: :cascade do |t|
+    t.string "tracking_number"
+    t.integer "status", default: 0
+    t.integer "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_shipments_on_order_id"
+  end
+
+  create_table "status_updates", force: :cascade do |t|
+    t.integer "status"
+    t.integer "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_status_updates_on_order_id"
   end
 
   create_table "users", force: :cascade do |t|

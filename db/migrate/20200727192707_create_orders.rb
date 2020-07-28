@@ -11,8 +11,14 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       t.string :company_name
       t.string :phone_number
       t.string :email
-      t.string :shipping_address
+      t.string :street
+      t.string :city
+      t.string :state
+      t.string :postal_code
+      t.string :country
       t.string :uuid
+      t.integer :device_id, :index => true
+      t.integer :shipment_id, :index => true
 
       t.timestamps
     end
