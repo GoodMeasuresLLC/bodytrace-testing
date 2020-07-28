@@ -5,6 +5,7 @@ import AppStore from '../store/store'
 import Wrapper from '../components/Wrapper.vue'
 import Index from '../components/main-site/Index.vue'
 import Devices from '../components/main-site/Devices.vue'
+import Orders from '../components/main-site/Orders.vue'
 
 
 //Bootstrap 4 components
@@ -18,7 +19,8 @@ const router = new VueRouter({
     {path: '/', component: Wrapper, children: [
       {path: '/', component: Index, name: 'Welcome', meta: {title: 'Welcome'}},
       {path: '',  component: Index,  meta: {title: 'Welcome'}},
-      {path: '/devices', component: Devices, meta: {title: 'All Devices'}}
+      {path: '/devices', component: Devices, meta: {title: 'All Devices'}},
+      {path: '/orders', component: Orders, meta: {title: 'Orders'}}
     ]}
   ]
 });

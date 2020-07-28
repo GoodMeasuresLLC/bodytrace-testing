@@ -32,6 +32,10 @@ class Api::OrdersController < ApiController
     }
   end
 
+  def update
+    Order.find(params[:id]).update_attributes(order_update_params)
+  end
+
   private
 
   def order_params
@@ -40,5 +44,9 @@ class Api::OrdersController < ApiController
 
   def address_params
     params.require(:shippingAddress).transform_keys!(&:underscore).permit(:street, :city, :state, :postal_code, :country)
+  end
+
+  def order_update_params
+    params.require(:order).permit(:status)
   end
 end

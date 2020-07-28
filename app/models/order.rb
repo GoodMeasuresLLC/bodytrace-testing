@@ -7,15 +7,19 @@ class Order < ApplicationRecord
 
   after_create :create_order_and_shipment
   after_save :create_status_update
+  after_update :update_shipment_status
 
   def create_order_and_shipment
     self.create_device(:imei => Faker::Code.imei)
     self.create_shipment(:tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
-    status_updates.create(:status => 0, :order_id =>  self.id)
   end
 
   def create_status_update
     status_updates.create(:status => self.status, :order_id =>  self.id)
+  end
+
+  def update_shipment_status
+    self.shipment.update_attributes(:status => self.status)
   end
 
   def shipping_address_for_api

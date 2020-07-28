@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Index',
+  name: 'Devices',
 
   components: {},
 
