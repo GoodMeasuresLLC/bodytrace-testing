@@ -85,7 +85,7 @@ export default {
   methods: {
     onSubmitMeasurement(event){
       event.preventDefault();
-      alert(JSON.stringify(this.form))
+      this.$store.dispatch('sendMeasurement', {form: this.form, device: this.device});
     }
   }
 }

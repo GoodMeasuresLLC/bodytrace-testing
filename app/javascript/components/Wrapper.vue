@@ -17,5 +17,10 @@ export default {
 </script>
 
 <!-- global styles -->
-<style lang="stylus" scoped>
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+div {
+  font-family: 'Montserrat', sans-serif;
+}
 </style>

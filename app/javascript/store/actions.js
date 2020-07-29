@@ -51,5 +51,16 @@ export const actions = {
         })
       }
     })
+  },
+
+  sendMeasurement(context, data) {
+    return new Promise((resolve) => {
+      if (context.loaded) {
+        resolve()
+      }
+      else {
+        console.log(data)
+      }
+    })
   }
 }

@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-jumbotron header="Orders" lead="These are the orders currently pending shipping.">
-      <p>Visit github.com/mikemaven for more info.</p>
+      <p>Visit github.com/goodmeasuresllc for more info.</p>
     </b-jumbotron>
-    <b-card :title="order.first_name + ' ' + order.last_name" v-for="order in orders">
+    <b-card :title="order.first_name + ' ' + order.last_name" v-for="order in orders" :key="order.id">
       <b-row>
         <b-col align-self="start">
           Order ID: {{order.uuid}}

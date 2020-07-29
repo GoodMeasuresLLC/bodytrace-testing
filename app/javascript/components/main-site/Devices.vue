@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-jumbotron header="Devices" lead="These are the devices currently registered for Good Measures">
-      <p>Visit github.com/mikemaven for more info.</p>
+      <p>Visit github.com/goodmeasuresllc for more info.</p>
     </b-jumbotron>
-    <span v-for="device in devices">
+    <span v-for="device in devices" :key="device.id">
       <device-card :device="device"/>
     </span>
   </div>

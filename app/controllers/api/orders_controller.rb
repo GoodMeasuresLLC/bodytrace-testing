@@ -33,7 +33,9 @@ class Api::OrdersController < ApiController
   end
 
   def update
-    Order.find(params[:id]).update_attributes(order_update_params)
+    @order = Order.find(params[:id]).update_attributes(order_update_params)
+
+    render :json => Order.all
   end
 
   private

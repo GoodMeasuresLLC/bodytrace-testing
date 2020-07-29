@@ -1,0 +1,2 @@
+defaults: &defaults
+  measurements_link: 'http://localhost:3000/bodytrace/measurements'

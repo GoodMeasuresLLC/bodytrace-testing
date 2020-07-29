@@ -1,2 +1,0 @@
-defaults: &defaults
-  fulfillment_link: 'http://localhost:3000'
