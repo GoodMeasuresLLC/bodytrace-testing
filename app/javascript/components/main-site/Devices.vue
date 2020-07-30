@@ -4,8 +4,8 @@
       <p>Visit github.com/goodmeasuresllc for more info.</p>
     </b-jumbotron>
     <span v-for="device in devices" :key="device.id">
-      <scale-device-card v-if="device.type == 'scale'" :device="device"/>
-      <bp-cuff-device-card v-if="device.type == 'bp_cuff'" :device="device"/>
+      <scale-device-card v-if="device.device_type == 'scale'" :device="device"/>
+      <bp-cuff-device-card v-if="device.device_type == 'bp_cuff'" :device="device"/>
     </span>
   </div>
 </template>

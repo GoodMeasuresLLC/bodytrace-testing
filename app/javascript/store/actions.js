@@ -60,21 +60,17 @@ export const actions = {
       }
       else {
         const data_for_api = {
-          imei: data.device.imei,
+          imei: data.imei,
           ts: new Date().getTime(),
-          batteryVoltage: data.form.batteryVoltage,
-          signalStrength: data.form.signalStrength,
-          deviceId: data.device.imei,
-          rssi: data.form.signalStrength,
-          values: {
-            unit: 1,
-            tare: 300,
-            weight: data.form.weight
-          }
+          batteryVoltage: data.batteryVoltage,
+          signalStrength: data.signalStrength,
+          deviceId: data.imei,
+          rssi: data.signalStrength,
+          values: data.values
         }
 
-        axios.post('http://localhost:3000/bodytrace/measurements', data_for_api).then((response) => {
-          debugger
+        axios.post('http://localhost:3000/bodytrace/measurements', data_for_api).then(response =>{
+          resolve(response);
         })
       }
     })

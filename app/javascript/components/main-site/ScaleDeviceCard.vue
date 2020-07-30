@@ -8,37 +8,13 @@
         <b-col align-self="end">
           <b-form @submit="onSubmitMeasurement">
             <b-form-group
-              id="battery-voltage"
-              label="Battery Voltage:"
-              label-for="battery-voltage-input"
-            >
-              <b-form-input
-                id="battery-voltage-input"
-                v-model="form.batteryVoltage"
-                type="number"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              id="signal-strength"
-              label="Signal Strength:"
-              label-for="signal-strength-input"
-            >
-              <b-form-input
-                id="signal-strength-input"
-                v-model="form.signalStrength"
-                type="number"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
               id="weight"
-              label="Weight (In Grams)"
+              label="Weight (In Pounds)"
               label-for="weight-input"
             >
               <b-form-input
                 id="weight-input"
-                v-model="form.weight"
+                v-model="form.values.weight"
                 type="number"
               ></b-form-input>
             </b-form-group>
@@ -74,9 +50,11 @@ export default {
   data() {
     return {
       form: {
-        batteryVoltage: 0,
-        signalStrength: 0,
-        weight: 0
+        values: {
+          weight: 0,
+          unit: 1,
+          tare: 300
+        }
       }
     }
   },
@@ -85,7 +63,26 @@ export default {
   methods: {
     onSubmitMeasurement(event){
       event.preventDefault();
-      this.$store.dispatch('sendMeasurement', {form: this.form, device: this.device});
+      const paramDefaults = {
+        batteryVoltage: 5801,
+        signalStrength: 80
+      }
+
+      let data =  {
+        ...this.form,
+        ...this.device,
+        ...paramDefaults
+      }
+
+      data.values.weight *= 454
+      
+      this.$store.dispatch('sendMeasurement', data).then((response) => {
+        this.clearForm();
+      });
+    },
+
+    clearForm(){
+      this.form.values.weight = 0;
     }
   }
 }

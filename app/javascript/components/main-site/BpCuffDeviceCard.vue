@@ -8,37 +8,25 @@
         <b-col align-self="end">
           <b-form @submit="onSubmitMeasurement">
             <b-form-group
-              id="battery-voltage"
-              label="Battery Voltage:"
-              label-for="battery-voltage-input"
+              id="systolic"
+              label="Systolic:"
+              label-for="systolic-input"
             >
               <b-form-input
-                id="battery-voltage-input"
-                v-model="form.batteryVoltage"
+                id="systolic-input"
+                v-model="form.values.systolic"
                 type="number"
               ></b-form-input>
             </b-form-group>
 
             <b-form-group
-              id="signal-strength"
-              label="Signal Strength:"
-              label-for="signal-strength-input"
+              id="diastolic"
+              label="Diastolic:"
+              label-for="diastolic-input"
             >
               <b-form-input
-                id="signal-strength-input"
-                v-model="form.signalStrength"
-                type="number"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              id="weight"
-              label="Weight (In Grams)"
-              label-for="weight-input"
-            >
-              <b-form-input
-                id="weight-input"
-                v-model="form.weight"
+                id="diastolic-input"
+                v-model="form.values.diastolic"
                 type="number"
               ></b-form-input>
             </b-form-group>
@@ -74,9 +62,12 @@ export default {
   data() {
     return {
       form: {
-        batteryVoltage: 0,
-        signalStrength: 0,
-        weight: 0
+        values: {
+          systolic: 0,
+          diastolic: 0,
+          unit: 1,
+          irregular: 0
+        }
       }
     }
   },
@@ -85,7 +76,25 @@ export default {
   methods: {
     onSubmitMeasurement(event){
       event.preventDefault();
-      this.$store.dispatch('sendMeasurement', {form: this.form, device: this.device});
+      let paramDefaults = {
+        batteryVoltage: 5801,
+        signalStrength: 80
+      }
+
+      let data =  {
+        ...this.form,
+        ...this.device,
+        ...this.paramDefaults
+      }
+
+      this.$store.dispatch('sendMeasurement', data).then((response) => {
+        this.clearForm();
+      });
+    },
+
+    clearForm(){
+      this.form.values.systolic = 0;
+      this.form.values.diastolic = 0;
     }
   }
 }
