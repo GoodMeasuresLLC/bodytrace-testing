@@ -12,24 +12,7 @@ class Api::OrdersController < ApiController
 
     @order.save
 
-    render :json => {
-      id: @order.uuid,
-      status: @order.status,
-      statusUpdates: @order.status_updates,
-      reference: @order.reference,
-      organizationId: @order.organization_id,
-      quantity: @order.quantity.to_i,
-      kitId: @order.kit_id,
-      shippingAddress: @order.shipping_address_for_api,
-      billingAddress: @order.shipping_address_for_api,
-      phoneNumber: @order.phone_number,
-      email: @order.email,
-      carrierService: {:carrierName => "USPS", :serviceName => "Standard"},
-      shipments: {@order.shipment.tracking_number.to_sym => @order.shipment.status, :uniqueItems => {@order.device.id.to_s.to_sym => @order.uuid}},
-      tracking: @order.shipment.tracking_number,
-      uniqueItems: {@order.device.id.to_s.to_sym => @order.uuid},
-      order: {id: @order.uuid, quantity: @order.quantity}
-    }
+    render :json => @order.response_for_api
   end
 
   def update

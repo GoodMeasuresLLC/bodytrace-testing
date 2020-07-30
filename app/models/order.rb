@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  include HTTParty
   has_one :device, :dependent => :destroy
   has_one :shipment, :dependent => :destroy
   has_many :status_updates, :dependent => :destroy
@@ -10,7 +11,7 @@ class Order < ApplicationRecord
   after_update :update_shipment_status
 
   def create_order_and_shipment
-    self.create_device(:imei => Faker::Code.imei)
+    self.create_device(:imei => Faker::Code.imei, :uuid => Faker::Internet.uuid)
     self.create_shipment(:tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
   end
 
@@ -25,9 +26,51 @@ class Order < ApplicationRecord
     elsif self.delivered?
       self.device.update_attributes(:status => "ready")
     end
+    self.class.post(BODYTRACE_CONFIG['orders_link'], options)
+  end
+
+  def options
+    {
+      :body => response_for_api.to_json,
+      :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
   end
 
   def shipping_address_for_api
     {:street => street, :city => city, :state => state, :postalCode => postal_code, :country => country}
+  end
+
+  def status_for_api
+    if pending?
+      "Pending"
+    elsif fulfilled?
+      "Fulfilled"
+    else
+      "Delivered"
+    end
+  end
+
+  def response_for_api
+    {
+      id: uuid,
+      status: status_for_api,
+      statusUpdates: status_updates.map{|update| {status: update.status_for_api, ts: update.created_at.to_time.to_i}},
+      reference: reference,
+      organizationId: organization_id,
+      quantity: quantity.to_i,
+      kitId: kit_id,
+      items: Device.where(order_id: id).map{|device| {productId: device.uuid, vendorProductId: "BT003G", quantity: quantity.to_i, subscriptionId: "c5a6ddd2-b44e-11e3-b5ae-bc764e04e32e"}},
+      shippingAddress: shipping_address_for_api,
+      billingAddress: shipping_address_for_api,
+      phoneNumber: phone_number,
+      email: email,
+      carrierService: {:carrierName => "USPS", :serviceName => "Standard"},
+      shipments: {shipment.tracking_number.to_sym => {:status => status_for_api, :uniqueItems => {device.imei.to_s.to_sym => uuid}}},
+      tracking: [shipment.tracking_number],
+      uniqueItems: {device.imei.to_sym => uuid},
+      order: {id: uuid, quantity: quantity}
+    }
   end
 end
