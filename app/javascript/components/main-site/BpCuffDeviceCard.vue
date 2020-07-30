@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  name: 'DeviceCard',
+  name: 'BpCuffDeviceCard',
 
   components: {},
 

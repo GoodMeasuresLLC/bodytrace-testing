@@ -4,18 +4,20 @@
       <p>Visit github.com/goodmeasuresllc for more info.</p>
     </b-jumbotron>
     <span v-for="device in devices" :key="device.id">
-      <device-card :device="device"/>
+      <scale-device-card v-if="device.type == 'scale'" :device="device"/>
+      <bp-cuff-device-card v-if="device.type == 'bp_cuff'" :device="device"/>
     </span>
   </div>
 </template>
 
 <script>
-import DeviceCard from './DeviceCard.vue'
+import ScaleDeviceCard from './ScaleDeviceCard.vue'
+import BpCuffDeviceCard from './BpCuffDeviceCard.vue'
 
 export default {
   name: 'Devices',
 
-  components: {DeviceCard},
+  components: {ScaleDeviceCard, BpCuffDeviceCard},
 
   mixins: [],
 

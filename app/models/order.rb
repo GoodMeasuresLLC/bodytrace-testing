@@ -11,8 +11,9 @@ class Order < ApplicationRecord
   after_update :update_shipment_status
 
   def create_order_and_shipment
-    self.create_device(:imei => Faker::Code.imei, :uuid => Faker::Internet.uuid)
-    self.create_shipment(:tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
+    device = self.create_device(:imei => Faker::Code.imei, :uuid => Faker::Internet.uuid, :device_type => device_type)
+    shipment = self.create_shipment(:tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
+    self.update_attributes(device: device, shipment: shipment)
   end
 
   def create_status_update
@@ -49,6 +50,16 @@ class Order < ApplicationRecord
       "Fulfilled"
     else
       "Delivered"
+    end
+  end
+
+  def device_type
+    if Kits::BP_CUFF_IDS.include?(kit_id)
+      "bp_cuff"
+    elsif Kits::SCALE_IDS.include?(kit_id)
+      "scale"
+    else
+      "unknown"
     end
   end
 
