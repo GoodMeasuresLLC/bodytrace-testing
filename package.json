@@ -16,6 +16,7 @@
     "webpack-dev-server": "^3.10.2"
   },
   "scripts": {
-    "dev": "./bin/webpack-dev-server"
+    "dev": "./bin/webpack-dev-server",
+    "postinstall": "npm run build"
   }
 }
