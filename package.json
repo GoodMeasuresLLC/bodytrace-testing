@@ -1,5 +1,5 @@
 {
-  "name": "basic-rails-vue-site",
+  "name": "bodytrace-testing",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "4.2.2",
@@ -17,6 +17,6 @@
   },
   "scripts": {
     "dev": "./bin/webpack-dev-server",
-    "postinstall": "yarn run build"
+    "postinstall": "yarn webpack:build"
   }
 }
