@@ -17,6 +17,6 @@
   },
   "scripts": {
     "dev": "./bin/webpack-dev-server",
-    "postinstall": "npm run build"
+    "postinstall": "yarn run build"
   }
 }
