@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="device.imei">
+    <b-card :title="'Device for order ' + device.order_id">
       <b-row v-if="device.status == 'ready'">
         <b-col align-self="start">
           <span class="text-secondary">Enter readings for this device:</span>

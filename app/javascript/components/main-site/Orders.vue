@@ -6,7 +6,7 @@
     <b-card :title="order.first_name + ' ' + order.last_name" v-for="order in orders" :key="order.id">
       <b-row>
         <b-col align-self="start">
-          Order ID: {{order.uuid}}
+          Order ID: {{order.id}}
         </b-col>
         <b-col align-self="end">
           <b-button v-if="order.status == 'pending'" variant="success" @click="doShip(order.id)">Ship</b-button>
