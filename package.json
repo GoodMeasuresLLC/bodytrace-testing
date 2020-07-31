@@ -16,7 +16,6 @@
     "webpack-dev-server": "^3.10.2"
   },
   "scripts": {
-    "dev": "./bin/webpack-dev-server",
-    "postinstall": "yarn webpack:build"
+    "dev": "./bin/webpack-dev-server"
   }
 }
