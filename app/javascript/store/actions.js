@@ -68,8 +68,8 @@ export const actions = {
           rssi: data.signalStrength,
           values: data.values
         }
-
-        axios.post('http://localhost:3000/bodytrace/measurements', data_for_api).then(response =>{
+        
+        axios.post('https://code.staging-goodmeasures.com/bodytrace/measurements', data_for_api).then(response =>{
           resolve(response);
         })
       }
