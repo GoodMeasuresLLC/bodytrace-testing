@@ -82,4 +82,4 @@ production:
   <<: *default
   database: bodytrace_testing_production
   username: bodytrace_testing
-  password: <%= ENV['BASIC_RAILS_VUE_SITE_DATABASE_PASSWORD'] %>
+  password: good2eat
