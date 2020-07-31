@@ -4,3 +4,8 @@ development: &development
   <<: *defaults
   measurements_link: 'http://localhost:3000/bodytrace/measurements'
   orders_link: 'http://localhost:3000/bodytrace/orders'
+
+production: &production
+  <<: *defaults
+  orders_link: 'https://code.staging-goodmeasures.com/bodytrace/orders'
+  measurements_link: 'https://code.staging-goodmeasures.com/bodytrace/measurements'
