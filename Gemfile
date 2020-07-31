@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem "haml"
-gem "webpacker"
+gem "webpacker", '4.2.0'
 gem "devise"
 gem "pry"
 gem "faker"
