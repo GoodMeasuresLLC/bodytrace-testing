@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :orders, :only => [:index, :show, :create, :destroy, :update]
-    resources :devices, :only => [:index, :show, :create, :destroy, :update]
+    resources :devices, :only => [:index, :show, :create, :destroy, :update] do
+      collection do
+        post 'send_measurement'
+      end
+    end
     resources :readings, :only => [:index, :show, :create, :destroy, :update]
   end
 

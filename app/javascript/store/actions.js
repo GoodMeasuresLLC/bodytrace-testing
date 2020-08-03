@@ -68,8 +68,12 @@ export const actions = {
           rssi: data.signalStrength,
           values: data.values
         }
+
+        const headers = {
+          'Content-Type': 'application/json'
+        }
         
-        axios.post('https://code.staging-goodmeasures.com/bodytrace/measurements', data_for_api).then(response =>{
+        axios.post('/api/devices/send_measurement', data_for_api, {headers: headers}).then(response =>{
           resolve(response);
         })
       }
