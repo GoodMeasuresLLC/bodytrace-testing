@@ -5,11 +5,7 @@ class Api::DevicesController < ApiController
   end
 
   def send_measurement
-    if self.class.post(BODYTRACE_CONFIG['measurements_link'], options)
-      render status :ok
-    else
-      render status :forbidden
-    end
+    self.class.post(BODYTRACE_CONFIG['measurements_link'], options)
   end
 
   def options
