@@ -87,6 +87,9 @@ export default {
         ...paramDefaults
       }
 
+      data.values.systolic *= 133
+      data.values.diastolic *= 133
+
       this.$store.dispatch('sendMeasurement', data).then((response) => {
         this.clearForm();
       });
