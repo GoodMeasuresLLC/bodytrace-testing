@@ -76,7 +76,7 @@ export default {
   methods: {
     onSubmitMeasurement(event){
       event.preventDefault();
-      let paramDefaults = {
+      const paramDefaults = {
         batteryVoltage: 5801,
         signalStrength: 80
       }
@@ -84,7 +84,7 @@ export default {
       let data =  {
         ...this.form,
         ...this.device,
-        ...this.paramDefaults
+        ...paramDefaults
       }
 
       this.$store.dispatch('sendMeasurement', data).then((response) => {
