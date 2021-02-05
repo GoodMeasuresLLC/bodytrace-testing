@@ -1,20 +1,39 @@
-# Basic Rails/Vue Site
+# CODE Application
 
-This template is meant to provide you with a base website that uses Ruby on Rails as an API and Vue as a reactive front end. This setup is perfect for very quickly prototpying SPA web applications, leveraging the ease of bulding single file Vue components, fast styling with Bootstrap Vue, and quick API scaffolding with ActiveRecord.
+config/bodytrace.yml
+* Has post URL for ordering
+* Has Kit Identifier for scale
+* Has Kit Identifier for bp_cuff
 
-## Included:
+Bodytrace_request.rb makes an order  
+models/bodytrace/request.rb  
+* Does a post to the fulfillment_url for a new order
 
-* [Bootstrap Vue](https://bootstrap-vue.js.org/) for ease of creating navigation, site grids, layouts, and more
-* [Vue Generators](https://github.com/GoodMeasuresLLC/vue-generators) for easily scaffolding powerful single file Vue components, Vuex stores, and more
-* [Devise](https://github.com/heartcombo/devise) for easy, straightforward authentication
-* Preconfigured for PostgreSQL 11
-* HAML syntax for rails view templates
+What does the service send back:
+* Bodytrace::OrdersController specifies what we expect when we order a scale
+* Bodytrace::Request specifies more exactly what the post action is for ordering the scale/bp-cuff
+* Bodytrace::MeasurementsController what happens when a member usings a scale
+
+## Flow is:
+
+* Test service receives order requests, creates an Scale or BpCuff
+* Test service lists all devices and status: new, shipping. Ready.
+* New devices can be shipped and become shipping
+* Shipping Devices get delivered and become Ready
+* Ready devices can have a reading entered.
+
+When new devices are shipped, they post to our Bodytrace::OrdersController  
+New readings post to our Bodytrace::MeasurementsController
+
 
 ## To Run:
 
-* First, update the `config/database.yml` file and rename the databases to the title of your project
 * Initialize your database by running `rake db:create`
 * Run `bundle install`
 * Run `yarn install`
 * Run `rails server`
 * In a new tab, run `yarn run start`
+
+## Production:
+Test app http://bodytrace-testing.herokuapp.com/orders  
+Code for test app: https://github.com/GoodMeasuresLLC/bodytrace-testing
