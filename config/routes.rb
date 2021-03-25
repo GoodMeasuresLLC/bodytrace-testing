@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :orders, :only => [:index, :show, :create, :destroy, :update]
+    post 'orders/:vendor' => 'orders#create'
+
     resources :devices, :only => [:index, :show, :create, :destroy, :update] do
       collection do
         post 'send_measurement'

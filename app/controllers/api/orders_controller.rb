@@ -24,7 +24,7 @@ class Api::OrdersController < ApiController
   private
 
   def order_params
-    params.except(:order, :shippingAddress).transform_keys!(&:underscore).permit(:quantity, :kit_id, :organization_id, :reference, :first_name, :last_name, :company_name, :phone_number, :email)
+    params.except(:order, :shippingAddress).transform_keys!(&:underscore).permit(:vendor, :quantity, :kit_id, :organization_id, :reference, :first_name, :last_name, :company_name, :phone_number, :email)
   end
 
   def address_params

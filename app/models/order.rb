@@ -20,6 +20,10 @@ class Order < ApplicationRecord
     status_updates.create(:status => self.status, :order_id =>  self.id)
   end
 
+  def order_update_url
+    vendor.nil?? BODYTRACE_CONFIG['orders_link'] : "#{BODYTRACE_CONFIG['orders_link']}/#{vendor}"
+  end
+
   def update_shipment_status
     self.shipment.update_attributes(:status => self.status)
     if self.fulfilled?
@@ -27,7 +31,7 @@ class Order < ApplicationRecord
     elsif self.delivered?
       self.device.update_attributes(:status => "ready")
     end
-    self.class.post(BODYTRACE_CONFIG['orders_link'], options)
+    self.class.post(order_update_url, options)
   end
 
   def options

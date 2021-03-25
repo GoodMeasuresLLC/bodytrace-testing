@@ -31,6 +31,17 @@
               ></b-form-input>
             </b-form-group>
 
+            <b-form-group
+              id="pulse"
+              label="Pulse:"
+              label-for="pulse-input"
+            >
+              <b-form-input
+                id="pulse-input"
+                v-model="form.values.pulse"
+                type="number"
+              ></b-form-input>
+            </b-form-group>
             <b-button type="submit" variant="primary">Record Measurement</b-button>
           </b-form>
         </b-col>
@@ -65,6 +76,7 @@ export default {
         values: {
           systolic: 0,
           diastolic: 0,
+          pulse: 0,
           unit: 1,
           irregular: 0
         }
@@ -89,6 +101,7 @@ export default {
 
       data.values.systolic *= 133
       data.values.diastolic *= 133
+      data.values.pulse *=1
 
       this.$store.dispatch('sendMeasurement', data).then((response) => {
         this.clearForm();
@@ -98,6 +111,7 @@ export default {
     clearForm(){
       this.form.values.systolic = 0;
       this.form.values.diastolic = 0;
+      this.form.values.pulse = 0;
     }
   }
 }

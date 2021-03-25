@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_160926) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.string "vendor"
     t.string "quantity", default: "1"
     t.integer "status", default: 0
     t.string "kit_id"

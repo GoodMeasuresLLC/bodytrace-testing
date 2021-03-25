@@ -1,6 +1,7 @@
 class CreateOrders < ActiveRecord::Migration[5.2]
   def change
     create_table :orders do |t|
+      t.string :vendor
       t.string :quantity, :default => 1
       t.integer :status, :default => 0
       t.string :kit_id

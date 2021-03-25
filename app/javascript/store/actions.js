@@ -72,7 +72,7 @@ export const actions = {
         const headers = {
           'Content-Type': 'application/json'
         }
-        
+
         axios.post('/api/devices/send_measurement', data_for_api, {headers: headers}).then(response =>{
           resolve(response);
         })
