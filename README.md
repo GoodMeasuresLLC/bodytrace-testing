@@ -15,7 +15,7 @@ In config/bodytrace.yml:
 ```
     staging: &staging
      <<: *defaults
-      fulfillment_link: 'https://bodytrace-testing.herokuapp.com/api/orders'
+      fulfillment_link: 'https://device-testing.herokuapp.com/api/orders'
       kit_id: 97dd7c56-5b44-11e4-9f3a-bc764e04e32e
       bp_cuff_kit_id: 2a72cb22-bf8d-11ea-9506-aa0000d39f2e
 ```
@@ -49,7 +49,7 @@ New readings post to our Bodytrace::MeasurementsController
 * In a new tab, run `yarn run dev`
 
 ## Production:
-Test app http://bodytrace-testing.herokuapp.com/orders
+Test app http://device-testing.herokuapp.com/orders
 Code for test app: https://github.com/GoodMeasuresLLC/bodytrace-testing
 Deploy via heroku, I think the standard setup guide is:
 https://devcenter.heroku.com/articles/getting-started-with-rails5#deploy-your-application-to-heroku
@@ -64,4 +64,8 @@ The app has two pages: Orders, and Devices
 
   Shipped and Delivered devices will appear on the Devices page, and from there you can enter readings for the device which imitates the data sent to us from bodytrace when a user takes a reading
 
-If the list gets too long and confusing, just nuke the heroku app’s DB
+If the list gets too long and confusing, just nuke the heroku app’s DB, via
+
+```
+  heroku run --app device-testing rake db:drop db:create db:migrate
+```
