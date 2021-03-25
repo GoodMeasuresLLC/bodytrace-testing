@@ -7,8 +7,8 @@ config/bodytrace.yml
 * Has Kit Identifier for scale
 * Has Kit Identifier for bp_cuff
 
-Bodytrace_request.rb makes an order  
-models/bodytrace/request.rb  
+Bodytrace_request.rb makes an order
+models/bodytrace/request.rb
 * Does a post to the fulfillment_url for a new order
 
 In config/bodytrace.yml:
@@ -20,7 +20,7 @@ In config/bodytrace.yml:
       bp_cuff_kit_id: 2a72cb22-bf8d-11ea-9506-aa0000d39f2e
 ```
 
-Staging is pre-configured to point to this test app for all bodytrace requests  
+Staging is pre-configured to point to this test app for all bodytrace requests
 
 
 What does the service send back:
@@ -36,7 +36,7 @@ What does the service send back:
 * Shipping Devices get delivered and become Ready
 * Ready devices can have a reading entered.
 
-When new devices are shipped, they post to our Bodytrace::OrdersController  
+When new devices are shipped, they post to our Bodytrace::OrdersController
 New readings post to our Bodytrace::MeasurementsController
 
 
@@ -46,22 +46,22 @@ New readings post to our Bodytrace::MeasurementsController
 * Run `bundle install`
 * Run `yarn install`
 * Run `rails server`
-* In a new tab, run `yarn run start`
+* In a new tab, run `yarn run dev`
 
 ## Production:
-Test app http://bodytrace-testing.herokuapp.com/orders  
-Code for test app: https://github.com/GoodMeasuresLLC/bodytrace-testing  
+Test app http://bodytrace-testing.herokuapp.com/orders
+Code for test app: https://github.com/GoodMeasuresLLC/bodytrace-testing
 Deploy via heroku, I think the standard setup guide is:
-https://devcenter.heroku.com/articles/getting-started-with-rails5#deploy-your-application-to-heroku  
-This should be deployed to Rob’s heroku account (or Good Measures? I can’t remember which)  
+https://devcenter.heroku.com/articles/getting-started-with-rails5#deploy-your-application-to-heroku
+This should be deployed to Rob’s heroku account (or Good Measures? I can’t remember which)
 The github repo is already linked with heroku such that if heroku is authenticated in the CLI, `git push heroku master` should deploy the app
 
 ## How it works:
 
-The app has two pages: Orders, and Devices  
-  
-  Orders show order requests, you can imitate Bodytrace’s response that it has shipped by clicking “ship” and then, after, imitate the delivery by clicking “deliver”  
-    
+The app has two pages: Orders, and Devices
+
+  Orders show order requests, you can imitate Bodytrace’s response that it has shipped by clicking “ship” and then, after, imitate the delivery by clicking “deliver”
+
   Shipped and Delivered devices will appear on the Devices page, and from there you can enter readings for the device which imitates the data sent to us from bodytrace when a user takes a reading
-  
+
 If the list gets too long and confusing, just nuke the heroku app’s DB
