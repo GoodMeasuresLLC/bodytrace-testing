@@ -49,7 +49,7 @@ class Order < ApplicationRecord
 
   def status_for_api
     if pending?
-      "Pending"
+      "Processing"
     elsif fulfilled?
       "Fulfilled"
     else
