@@ -78,5 +78,21 @@ export const actions = {
         })
       }
     })
+  },
+  queueMeasurement(context, data) {
+    return new Promise((resolve) => {
+      if (context.loaded) {
+        resolve()
+      }
+      else {
+        const headers = {
+          'Content-Type': 'application/json'
+        }
+
+        axios.post('/api/devices/queue_measurement', data, {headers: headers}).then(response =>{
+          resolve(response);
+        })
+      }
+    })
   }
 }

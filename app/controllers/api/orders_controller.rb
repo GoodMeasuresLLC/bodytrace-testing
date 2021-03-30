@@ -2,7 +2,7 @@ class Api::OrdersController < ApiController
   require "faker"
 
   def index
-    render :json => Order.all
+    render :json => Order.order(created_at: :desc)
   end
 
   def create

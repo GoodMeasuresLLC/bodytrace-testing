@@ -1,23 +1,20 @@
 class Order < ApplicationRecord
   include HTTParty
-  has_one :device, :dependent => :destroy
-  has_one :shipment, :dependent => :destroy
-  has_many :status_updates, :dependent => :destroy
+  has_one :device, :dependent => :destroy, autosave: true
+  has_one :shipment, :dependent => :destroy, autosave: true
+  has_many :status_updates, :dependent => :destroy, autosave: true
 
   enum :status => {:pending => 0, :fulfilled => 1, :delivered => 2}
 
-  after_create :create_order_and_shipment
-  after_save :create_status_update
-  after_update :update_shipment_status
+  before_save :build_status_update
+  before_update :update_shipment_status
+  after_update :post_update
 
-  def create_order_and_shipment
-    device = self.create_device(:imei => Faker::Code.imei, :uuid => Faker::Internet.uuid, :device_type => device_type)
-    shipment = self.create_shipment(:tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
-    self.update_attributes(device: device, shipment: shipment)
+  def ship_device
   end
 
-  def create_status_update
-    status_updates.create(:status => self.status, :order_id =>  self.id)
+  def build_status_update
+    status_updates.build(:status => self.status, :order_id =>  self.id)
   end
 
   def order_update_url
@@ -25,12 +22,16 @@ class Order < ApplicationRecord
   end
 
   def update_shipment_status
-    self.shipment.update_attributes(:status => self.status)
     if self.fulfilled?
-      self.device.update_attributes(:status => "shipping")
+      self.build_device(status: :shipping, :imei => Faker::Code.imei, :uuid => Faker::Internet.uuid, :device_type => device_type)
+      self.build_shipment(status: status, :tracking_number => Faker::Alphanumeric.alphanumeric(number: 18).upcase)
     elsif self.delivered?
-      self.device.update_attributes(:status => "ready")
+      self.shipment.status = status
+      self.device.status = :ready
     end
+  end
+
+  def post_update
     self.class.post(order_update_url, options)
   end
 
@@ -62,13 +63,15 @@ class Order < ApplicationRecord
       "bp_cuff"
     elsif Kits::SCALE_IDS.include?(kit_id)
       "scale"
+    elsif Kits::SLEEP_MAT_IDS.include?(kit_id)
+      "sleep_mat"
     else
       "unknown"
     end
   end
 
   def response_for_api
-    {
+    response = {
       id: uuid,
       status: status_for_api,
       statusUpdates: status_updates.map{|update| {status: update.status_for_api, ts: update.created_at.to_time.to_i}},
@@ -76,16 +79,21 @@ class Order < ApplicationRecord
       organizationId: organization_id,
       quantity: quantity.to_i,
       kitId: kit_id,
-      items: Device.where(order_id: id).map{|device| {productId: device.uuid, vendorProductId: "BT003G", quantity: quantity.to_i, subscriptionId: "c5a6ddd2-b44e-11e3-b5ae-bc764e04e32e"}},
       shippingAddress: shipping_address_for_api,
       billingAddress: shipping_address_for_api,
       phoneNumber: phone_number,
       email: email,
       carrierService: {:carrierName => "USPS", :serviceName => "Standard"},
-      shipments: {shipment.tracking_number.to_sym => {:status => status_for_api, :uniqueItems => {device.imei.to_s.to_sym => uuid}}},
-      tracking: [shipment.tracking_number],
-      uniqueItems: {device.imei.to_sym => uuid},
       order: {id: uuid, quantity: quantity}
     }
+    if(device)
+      response.merge!(
+        items: [{productId: device.uuid, vendorProductId: "BT003G", quantity: quantity.to_i, subscriptionId: "c5a6ddd2-b44e-11e3-b5ae-bc764e04e32e"}],
+        uniqueItems: {device.imei.to_sym => uuid},
+        shipments: {shipment.tracking_number.to_sym => {:status => status_for_api, :uniqueItems => {device.imei.to_s.to_sym => device.imei.to_s.to_sym}}},
+        tracking: [shipment.tracking_number],
+      )
+    end
+    response
   end
 end

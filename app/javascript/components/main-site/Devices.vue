@@ -6,6 +6,7 @@
     <span v-for="device in devices" :key="device.id">
       <scale-device-card v-if="device.device_type == 'scale'" :device="device"/>
       <bp-cuff-device-card v-if="device.device_type == 'bp_cuff'" :device="device"/>
+      <sleep-mat-device-card v-if="device.device_type == 'sleep_mat'" :device="device"/>
     </span>
   </div>
 </template>
@@ -13,11 +14,12 @@
 <script>
 import ScaleDeviceCard from './ScaleDeviceCard.vue'
 import BpCuffDeviceCard from './BpCuffDeviceCard.vue'
+import SleepMatDeviceCard from './SleepMatDeviceCard.vue'
 
 export default {
   name: 'Devices',
 
-  components: {ScaleDeviceCard, BpCuffDeviceCard},
+  components: {ScaleDeviceCard, BpCuffDeviceCard, SleepMatDeviceCard},
 
   mixins: [],
 
@@ -34,7 +36,7 @@ export default {
   data() {
     return {
       form: {
-        
+
       }
     }
   },
